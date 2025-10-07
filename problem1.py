@@ -2,7 +2,7 @@
 Problem 1: List Operations and Comprehensions
 Practice working with Python lists - creating, modifying, filtering, and transforming them.
 """
-
+from itertools import zip_longest
 
 def create_number_list(start, end):
     """
@@ -21,7 +21,7 @@ def create_number_list(start, end):
     """
     # TODO: Implement this function
     # Hint: Use range() and convert to list
-    pass
+    return list(range(start, end + 1))
 
 
 def filter_even_numbers(numbers):
@@ -40,8 +40,12 @@ def filter_even_numbers(numbers):
     """
     # TODO: Implement this function
     # You can use a loop or list comprehension
-    pass
-
+    even_list = []
+    for number in numbers:
+        if number % 2 == 0:
+            even_list.append(number)
+    return even_list
+       
 
 def square_numbers(numbers):
     """
@@ -59,7 +63,10 @@ def square_numbers(numbers):
     """
     # TODO: Implement this function
     # Hint: Try a list comprehension!
-    pass
+    square_list = []
+    for number in numbers:
+            square_list.append(number**2)
+    return square_list
 
 
 def find_max_min(numbers):
@@ -78,7 +85,9 @@ def find_max_min(numbers):
     """
     # TODO: Implement this function
     # You can use max() and min() built-in functions
-    pass
+    
+    for number in numbers: return max(numbers), min(numbers)
+
 
 
 def remove_duplicates(items):
@@ -98,7 +107,11 @@ def remove_duplicates(items):
     # TODO: Implement this function
     # Hint: You can use a loop and check if item is already in result list
     # Or convert to set and back to list (but this doesn't preserve order)
-    pass
+    unique_list = []
+    for num in items:
+        if num not in unique_list:
+            unique_list.append(num)
+    return unique_list
 
 
 def merge_lists(list1, list2):
@@ -121,8 +134,14 @@ def merge_lists(list1, list2):
     """
     # TODO: Implement this function
     # Hint: Use a loop with index, handle different lengths
-    pass
-
+    # checked online to find what zip longest does, simpler than loop
+    merged = zip_longest(list1, list2, fillvalue=None)
+    alt_list=[]
+    for i in merged:
+        for item in i:
+            if item is not None:
+                alt_list.append(item)
+    return alt_list
 
 def list_statistics(numbers):
     """
@@ -138,12 +157,26 @@ def list_statistics(numbers):
         >>> list_statistics([1, 2, 3, 4, 5])
         {'sum': 15, 'average': 3.0, 'count': 5, 'max': 5, 'min': 1}
     """
-    if not numbers:
-        return None
 
     # TODO: Implement this function
     # Calculate and return a dictionary with the statistics
-    pass
+    analysis = {}
+    if not numbers:
+        return {'sum': 0, 'average': 0.0, 'count': 0, 'max': None, 'min': None}
+    # Total count of elements
+    analysis["count"] = len(numbers)
+    # Sum all numbers
+    analysis["sum"] = sum(numbers)
+    # Average of the list
+    analysis["average"] = analysis["sum"] / analysis["count"]
+    # Minimum value
+    analysis["min"] = min(numbers)
+    # Maximum value
+    analysis["max"] = max(numbers)
+    
+    
+    # Return the results as a dictionary
+    return analysis
 
 
 def chunk_list(items, chunk_size):
@@ -163,7 +196,16 @@ def chunk_list(items, chunk_size):
     """
     # TODO: Implement this function
     # Hint: Use list slicing in a loop
-    pass
+    if chunk_size <= 0:
+        return[]
+
+    slicing=[]
+    
+    for x in range(0, len(items), chunk_size):
+        chunk = items[x : x + chunk_size]
+        slicing.append(chunk)
+    return slicing
+
 
 
 # Test cases
